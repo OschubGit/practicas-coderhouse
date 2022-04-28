@@ -12,4 +12,4 @@ console.log("El resultado es: " + result);
 let text = prompt("Hola me llamo:");
 let textDos = prompt(text+ " " + "¿Como te encuentras?:");
 result = "Me llamo " + text + " y estoy " + textDos; 
-console.log(result);
+alert(result);

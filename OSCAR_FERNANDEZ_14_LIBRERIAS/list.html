@@ -44,10 +44,10 @@
               </a>
       
               <div class="navbar-dropdown">
-                <a class="navbar-item">
+                <a id="verdura" class="navbar-item">
                   Verduras
                 </a>
-                <a class="navbar-item">
+                <a id="proteicos" class="navbar-item">
                   Proteicos
                 </a>
                 <a class="navbar-item">
@@ -64,11 +64,6 @@
                 </a>
                 <a class="navbar-item">
                   Otros
-                </a>
-                <hr class="navbar-divider">
-                <a class="navbar-item">
-                  Añadir categoría
-                  <input class="add-category" placeholder="add">
                 </a>
               </div>
             </div>
@@ -114,7 +109,6 @@
                 <div class="select is-medium">
                   <select id="selectOptions">
                     <option>Verduras</option>
-                    <option>Verduras</option>
                     <option>Farináceos</option>
                     <option>Proteicos</option>
                     <option>Frutas</option>
@@ -124,10 +118,12 @@
                   </select>
                 </div>
               </div>
+              <div class="column">
+                <div class="buttons">
+                  <button class="button is-primary is-medium" type="submit" value="Enviar">Enviar</button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="buttons">
-            <button class="button is-primary" type="submit" value="Enviar">Enviar</button>
           </div>
         </form>
           
@@ -139,14 +135,32 @@
         <div class="modal-background"></div>
         <div class="modal-content">
           <form id="formEdit" class="box">
-            <div class="field">
-              <label id="selectOptions" class="label">Escribe el nuevo alimento</label>
-              <div class="control">
-                <input class="input is-medium" id="input-food-modal" type="text" placeholder="Añadir alimento">
+            <div class="columns">
+              <div class="column">
+                <div class="field">
+                  <label id="selectOptions" class="label">Escribe el nuevo alimento</label>
+                  <div class="control">
+                    <input class="input is-medium" id="input-food-modal" type="text" placeholder="Añadir alimento">
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <label id="selectOptions" class="label">Selecciona la nueva categoría</label>
+                <div class="select is-medium mb-3">
+                  <select id="selectOptionsEdit">
+                    <option>Verduras</option>
+                    <option>Verduras</option>
+                    <option>Farináceos</option>
+                    <option>Proteicos</option>
+                    <option>Frutas</option>
+                    <option>Frutos secos</option>
+                    <option>Lácteos</option>
+                    <option>Otros</option>
+                  </select>
+                </div>
               </div>
             </div>
-          
-            <button type="submit" class="button is-primary">Actualizar</button>
+            <button type="submit" class="button is-primary is-medium">Actualizar</button>
           </form>
         </div>
         <button id="closeModal" class="modal-close is-large"></button>

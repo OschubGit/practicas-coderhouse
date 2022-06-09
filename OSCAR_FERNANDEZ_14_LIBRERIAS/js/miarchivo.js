@@ -13,11 +13,6 @@ function Alimento(alimento, category, pesoRacion, proteina, hidratosCarbono) {
 
 let alimentos = [];
 let foodCategory = ["Verduras", "Farináceos", "Proteicos", "Frutos Secos", "Lácteos", "Frutas"]
-//ABRIR MODAL Y ESCRIBIR
-let addcategory = document.querySelectorAll("add-category");
-addcategory.onchange = () => {
-	console.log(addcategory.value)
-}
 
 //Comprueba si hay aliemntos añadidos
 if (localStorage.getItem("alimentos") && JSON.parse(localStorage.getItem("alimentos"))) {
@@ -53,7 +48,7 @@ function showList() {
     for (const alimento of alimentos) {
       let list = document.getElementById("grid-columns-food");
       let contenedor = document.createElement("div");
-      contenedor.className = "column is-one-fifth";
+      contenedor.className = "column is-one-quarter";
       contenedor.innerHTML = `
                   <div class="card">
                       <div class="card-image">
@@ -65,13 +60,16 @@ function showList() {
                       <div class="media">
                           <div class="media-content">
                           <p class="title is-4">${alimento.alimento}</p>
-                          <p class="title is-6">${alimento.category}</p>
+                          <p>Categoría:</p>
+						  <span class="tag is-link is-normal is-light mb-3">${alimento.category}</span>
+                          <p>Hidratos de Carbono:</p>
                           <p class="title is-6">${alimento.propiedades.hidratosCarbono}</p>
                           </div>
                       </div>
+					  <hr>
                       <div class="content">
-                      <button type="button" class="button is-danger" onclick={deleteCard(${alimento.id})}>Delete</button>
-                      <button type="button" class="button is-danger" onclick={editCard(${alimento.id})}>Edit</button>
+                      <button type="button" class="button is-outlined is-info" onclick={editCard(${alimento.id})}>Editar</button>
+                      <button type="button" class="button is-danger is-outlined" onclick={deleteCard(${alimento.id})}>Eliminar</button>
                       </div>
                       </div>
                   </div>`;
@@ -96,13 +94,16 @@ let newFoodModal = document.getElementById("input-food-modal");
 newFoodModal.addEventListener("input", () => {
 	saveFood = newFoodModal.value;
 });
+
 function editCard(id){
 	respuestaEditar()
 	let formEdit = document.getElementById("formEdit");
 	formEdit.addEventListener("submit", (e) => {
 		e.preventDefault();
+		let getOption = document.getElementById("selectOptionsEdit");
 		const findAlimento = alimentos.findIndex((item) => item.id === id);
 		alimentos[findAlimento].alimento = saveFood;
+		alimentos[findAlimento].category = getOption.value;
 		localStorage.setItem("alimentos", JSON.stringify(alimentos))
 		list.innerHTML = "";
 		showList();
@@ -154,5 +155,3 @@ function validarFormulario(e) {
   	localStorage.setItem("alimentos", JSON.stringify(alimentos))
 	showList();
 }
-
-

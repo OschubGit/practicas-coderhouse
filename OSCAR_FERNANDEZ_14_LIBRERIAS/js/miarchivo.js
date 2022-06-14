@@ -12,7 +12,7 @@ function Alimento(alimento, category, pesoRacion, proteina, hidratosCarbono) {
 }
 
 let alimentos = [];
-let foodCategory = ["Verduras", "Farináceos", "Proteicos", "Frutos Secos", "Lácteos", "Frutas"]
+let foodCategory = Object.values(typeCategory).map((m) => m)
 
 //Comprueba si hay aliemntos añadidos
 if (localStorage.getItem("alimentos") && JSON.parse(localStorage.getItem("alimentos"))) {
@@ -77,6 +77,22 @@ function showList() {
 	}
 }
 
+/* Create options for menu in navbar */
+for (const item of foodCategory) {
+foodCategory = Object.values(typeCategory).map((m) => m)
+	let list  = document.getElementById("selectOptions");
+    let contenedor = document.createElement("option");
+    contenedor.innerHTML = item;
+    list.appendChild(contenedor);
+}
+/* Create options for edit select in modal */
+for (const item of foodCategory) {
+	let list  = document.getElementById("selectOptionsEdit");
+    let contenedor = document.createElement("option");
+    contenedor.innerHTML = item;
+    list.appendChild(contenedor);
+}
+
 /* EDITAR CARD */
 let openModal = document.getElementById("modal");
 //abrimos y cerramos el modal con evento onclick
@@ -95,7 +111,9 @@ newFoodModal.addEventListener("input", () => {
 	saveFood = newFoodModal.value;
 });
 
+
 function editCard(id){
+	alimentos = JSON.parse(localStorage.getItem("alimentos"))
 	respuestaEditar()
 	let formEdit = document.getElementById("formEdit");
 	formEdit.addEventListener("submit", (e) => {
@@ -146,7 +164,7 @@ function validarFormulario(e) {
 	//form para seleccionar alimento a editar
 	let category = document.getElementById("selectOptions").value;
 
-	let alimento = new Alimento(food, category, pesoRacion, hc, proteina);
+	let alimento = new Alimento(food, category, pesoRacion, proteina, hc);
   	alimentos.push(alimento)
 	// Para vaciar todo, tomamos el id del formulario y usamos el método reset()
 	miFormulario.reset();
@@ -155,3 +173,90 @@ function validarFormulario(e) {
   	localStorage.setItem("alimentos", JSON.stringify(alimentos))
 	showList();
 }
+
+
+/* ALLFOODS */
+/* Create options menu with enum values */
+for (const item of foodCategory) {
+	let list = document.querySelector(".navbar-dropdown");
+	let contenedor = document.createElement("div");
+	contenedor.className = "navbar-item";
+	contenedor.innerHTML = `<button type="button" class="button is-white btnfilter">${item}</button>`;
+	list.appendChild(contenedor);
+  }
+  
+  /* Filtrar por item seleccionado */
+  let btnFilter = document.querySelectorAll(".btnfilter");
+  for (let x = 0; x < foodCategory.length; x++) {
+	btnFilter[x].addEventListener("click", () => {
+	  let result = btnFilter[x].innerHTML;
+	  let filterPerId = JSON.parse(localStorage.getItem("alimentos")).filter(
+		(f) => f.category === result
+	  );
+	  list.innerHTML = "";
+	  alimentos = filterPerId;
+	  let nameCat = document.getElementById("title");
+	  nameCat.innerHTML = `Has filtrado por ${result}`;
+	  if (filterPerId.length > 0) {
+		showList();
+	  } else {
+		list.innerHTML = `
+			  <div id="delete-warning" class="notification is-warning">
+			  <button type="button" onclick={deleteWarning()} class="delete"></button>
+			  No hay alimentos en la categoría ${result}.
+			  </div>`;
+	  }
+	});
+  }
+  
+  function deleteWarning() {
+	const deleteWarning = document.getElementById("delete-warning");
+	deleteWarning.remove();
+  }
+  
+  /* BUSCADOR */
+  let searchInputhtml = document.querySelector("#searchInput");
+  let searchBtnHtml = document.getElementById("btnSearch");
+  searchBtnHtml.addEventListener("click", filtrar);
+  
+  let card;
+  let cardContainer;
+  function filtrar() {
+	list.innerHTML = "";
+	let text = searchInputhtml.value.toLowerCase();
+	for (const alimento of alimentos) {
+	  card = document.getElementById("grid-columns-food");
+	  cardContainer = document.createElement("div");
+	  cardContainer.className = "column is-one-quarter";
+	  let nombre = alimento.alimento.toLowerCase();
+	  if (nombre.indexOf(text) !== -1) {
+		cardContainer.innerHTML += `
+			  <div class="card">
+			  <div class="card-image">
+			  <figure class="image is-4by3">
+				  <img src=${alimento.image} alt="image-food">
+			  </figure>
+			  </div>
+			  <div class="card-content">
+			  <div class="media">
+				  <div class="media-content">
+				  <p class="title is-4">${alimento.alimento}</p>
+				  <p>Categoría:</p>
+				  <span class="tag is-link is-normal is-light mb-3">${alimento.category}</span>
+				  <p>Hidratos de Carbono:</p>
+				  <p class="title is-6">${alimento.propiedades.hidratosCarbono}</p>
+				  </div>
+			  </div>
+			  </div>
+		  </div>
+			  `;
+		card.appendChild(cardContainer);
+	  }
+	}
+	if (card.innerHTML === "") {
+	  cardContainer.innerHTML = `<p>No hay nada que coincida con ${text}</p>`;
+	  card.appendChild(cardContainer);
+	}
+  }
+/*   searchInputhtml.addEventListener("keyup", filtrar);
+  filtrar(); */

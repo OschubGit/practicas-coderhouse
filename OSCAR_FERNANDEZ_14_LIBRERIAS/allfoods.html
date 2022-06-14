@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./allfoods.css">
+    <title>Eventos</title>
+    <style>
+        .hero{
+            margin-top: 56px;
+        }
+        .columns {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .modal {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="z-index: 1;" class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="list.html">
+                <img src="./images/logo.png" class="image-nav">
+              </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item"
+                    href="list.html">
+                    Crear Nuevo
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <button class="button">
+                            <a href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
+                                <span class="icon is-small mr-1">
+                                    <ion-icon name="logo-github"></ion-icon>
+                                </span>
+                                Ver en GtiHub
+                            </a>
+                        </button>
+                        <button id="singOut" class="button is-primary">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <p id="title" class="title">
+                Recetas bajas en Carbohidratos
+            </p>
+            <p class="subtitle">
+                Recetas para diabéticos. Puedes encontrar recetas bajas en carbohidratos.
+            </p>
+        </div>
+    </section>
+    <section class="section">
+        <div class="columns is-mobile" id="grid-columns-apiFood">
+            <!-- Grid content foods -->
+        </div>
+        </div>
+    </section>
+    <script src="./js/enums/categories.js"></script>
+    <script src="./js/logout.js"></script>
+    <script src="./js/apiFood.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

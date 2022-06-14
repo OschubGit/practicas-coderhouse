@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Eventos</title>
     <style>
+      .hero{
+            margin-top: 56px;
+        }
       .columns{
         width: 100%;
       flex-wrap: wrap;
@@ -16,13 +19,17 @@
         height: 100vh;
         width: 100%;
       }
+      .navbar-item img{
+        max-height: 50px !important;
+        height: 50px;
+      }
     </style>
 </head>
 <body>
-    <nav style="z-index: 1;" class="navbar" role="navigation" aria-label="main navigation">
+    <nav style="z-index: 1;" class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="//Users/oscarfdez/Documents/coderhouse/OSCAR_FERNANDEZ_12_OPERADORES_AVANZADOS/list.html">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          <a class="navbar-item" href="list.html">
+            <img src="./images/logo.png" class="image-nav">
           </a>
       
           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -34,44 +41,42 @@
       
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="//Users/oscarfdez/Documents/coderhouse/OSCAR_FERNANDEZ_12_OPERADORES_AVANZADOS/content.html">
-              Todos los alimentos
+            <a class="navbar-item" href="allfoods.html">
+              Recetas
             </a>
 
             <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                Categorías
-              </a>
+                <a class="navbar-link">
+                    Categorías
+                </a>
+
+                <div class="navbar-dropdown">
+                    <!-- Options -->
+                </div>
+            </div>
+        </div>
       
-              <div class="navbar-dropdown">
-                <a id="verdura" class="navbar-item">
-                  Verduras
-                </a>
-                <a id="proteicos" class="navbar-item">
-                  Proteicos
-                </a>
-                <a class="navbar-item">
-                  Farinaceos
-                </a>
-                <a class="navbar-item">
-                  Frutos Secos
-                </a>
-                <a class="navbar-item">
-                  Lácteos
-                </a>
-                <a class="navbar-item">
-                  Fruta
-                </a>
-                <a class="navbar-item">
-                  Otros
+          <div class="navbar-end">
+            <div class="field has-addons mb-0 is-align-items-center">
+              <div class="control">
+                <input id="searchInput" class="input" type="text" placeholder="Buscar...">
+              </div>
+              <div class="control">
+                <a id="btnSearch" class="button is-info">
+                  Search
                 </a>
               </div>
             </div>
-          </div>
-      
-          <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
+                <button class="button">
+                  <a href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
+                      <span class="icon is-small mr-1">
+                          <ion-icon name="logo-github"></ion-icon>
+                      </span>
+                      Ver en GtiHub
+                  </a>
+              </button>
                 <button id="singOut" class="button is-primary">Salir</button>
               </div>
             </div>
@@ -100,7 +105,7 @@
                 <input class="input is-medium" id="input-peso-racion" type="number" placeholder="Peso en gramos">
               </div>
               <div class="column">
-                <input class="input is-medium" id="input-hc" type="number" placeholder="Hidratos de carbono">
+                <input class="input is-medium" id="input-hc" required type="number" placeholder="Hidratos de carbono">
               </div>
               <div class="column">
                 <input class="input is-medium" id="input-proteina" type="number" placeholder="Proteina">
@@ -108,13 +113,7 @@
               <div class="column">
                 <div class="select is-medium">
                   <select id="selectOptions">
-                    <option>Verduras</option>
-                    <option>Farináceos</option>
-                    <option>Proteicos</option>
-                    <option>Frutas</option>
-                    <option>Frutos secos</option>
-                    <option>Lácteos</option>
-                    <option>Otros</option>
+                    <!-- Options here -->
                   </select>
                 </div>
               </div>
@@ -148,14 +147,7 @@
                 <label id="selectOptions" class="label">Selecciona la nueva categoría</label>
                 <div class="select is-medium mb-3">
                   <select id="selectOptionsEdit">
-                    <option>Verduras</option>
-                    <option>Verduras</option>
-                    <option>Farináceos</option>
-                    <option>Proteicos</option>
-                    <option>Frutas</option>
-                    <option>Frutos secos</option>
-                    <option>Lácteos</option>
-                    <option>Otros</option>
+                    <!-- Options here -->
                   </select>
                 </div>
               </div>
@@ -168,8 +160,11 @@
 
       <!-- Modal -->
     </section>
+    <script src="./js/enums/categories.js"></script>
     <script src="./js/miarchivo.js"></script>
     <script src="./js/logout.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </body>
 </html>

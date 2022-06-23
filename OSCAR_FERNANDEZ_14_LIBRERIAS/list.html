@@ -1,170 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <title>Eventos</title>
-    <style>
-      .hero{
-            margin-top: 56px;
-        }
-      .columns{
-        width: 100%;
-      flex-wrap: wrap;
-      }
-      .modal{
-        height: 100vh;
-        width: 100%;
-      }
-      .navbar-item img{
-        max-height: 50px !important;
-        height: 50px;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/tippy.js@6/animations/scale.css"
+/>
+  <title>Eventos</title>
 </head>
+
 <body>
-    <nav style="z-index: 1;" class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="list.html">
-            <img src="./images/logo.png" class="image-nav">
+  <nav style="z-index: 1;" class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="list.html">
+        <img src="./images/logo.png" class="image-nav">
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="allfoods.html">
+          Recetas
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Categorías
           </a>
-      
-          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+
+          <div class="navbar-dropdown">
+            <!-- Options -->
+          </div>
         </div>
-      
-        <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <a class="navbar-item" href="allfoods.html">
-              Recetas
+      </div>
+
+      <div class="navbar-end">
+        <div class="field has-addons mb-0 is-align-items-center">
+          <div class="control">
+            <input id="searchInput" class="input" type="text" placeholder="Buscar...">
+          </div>
+          <div class="control">
+            <a id="btnSearch" class="button is-info">
+              Search
             </a>
-
-            <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    Categorías
-                </a>
-
-                <div class="navbar-dropdown">
-                    <!-- Options -->
-                </div>
-            </div>
-        </div>
-      
-          <div class="navbar-end">
-            <div class="field has-addons mb-0 is-align-items-center">
-              <div class="control">
-                <input id="searchInput" class="input" type="text" placeholder="Buscar...">
-              </div>
-              <div class="control">
-                <a id="btnSearch" class="button is-info">
-                  Search
-                </a>
-              </div>
-            </div>
-            <div class="navbar-item">
-              <div class="buttons">
-                <button class="button">
-                  <a href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
-                      <span class="icon is-small mr-1">
-                          <ion-icon name="logo-github"></ion-icon>
-                      </span>
-                      Ver en GtiHub
-                  </a>
-              </button>
-                <button id="singOut" class="button is-primary">Salir</button>
-              </div>
-            </div>
           </div>
         </div>
-    </nav>
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <p id="title" class="title">
-          Añde y edita tus alimentos
-        </p>
-        <p class="subtitle">
-          Aquí puedes añadir tus alimentos y guardarlos para consultarlos más tarde. También pordrás editarlos o si lo deseas eliminarlos.
-        </p>
-      </div>
-    </section>
-    <section class="section">
-      <h4 class="title is-4">Añade uno nuevo</h4>
-        <form id="formulario" class="mt-4 mb-4">
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <input class="input is-medium" id="input-food" type="text" placeholder="Añadir alimento">
-              </div>
-              <div class="column">
-                <input class="input is-medium" id="input-peso-racion" type="number" placeholder="Peso en gramos">
-              </div>
-              <div class="column">
-                <input class="input is-medium" id="input-hc" required type="number" placeholder="Hidratos de carbono">
-              </div>
-              <div class="column">
-                <input class="input is-medium" id="input-proteina" type="number" placeholder="Proteina">
-              </div>
-              <div class="column">
-                <div class="select is-medium">
-                  <select id="selectOptions">
-                    <!-- Options here -->
-                  </select>
-                </div>
-              </div>
-              <div class="column">
-                <div class="buttons">
-                  <button class="button is-primary is-medium" type="submit" value="Enviar">Enviar</button>
-                </div>
-              </div>
-            </div>
+        <div class="navbar-item">
+          <div class="buttons">
+            <button class="button">
+              <a href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
+                <span class="icon is-small mr-1">
+                  <ion-icon name="logo-github"></ion-icon>
+                </span>
+                Ver en GtiHub
+              </a>
+            </button>
+            <button id="singOut" class="button is-primary">Salir</button>
           </div>
-        </form>
-          
-        <div class="columns is-mobile" id="grid-columns-food">
-            <!-- Grid content foods -->
         </div>
       </div>
-      <div id="modal" class="modal is-clipped">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-          <form id="formEdit" class="box">
-            <div class="columns">
-              <div class="column">
-                <div class="field">
-                  <label id="selectOptions" class="label">Escribe el nuevo alimento</label>
-                  <div class="control">
-                    <input class="input is-medium" id="input-food-modal" type="text" placeholder="Añadir alimento">
+    </div>
+  </nav>
+  <section>
+    <div class="gridSection split">
+      <div class="gridSection__form">
+        <div class="gridSection__form-inner">
+          <h4 class="title is-4">Añade uno nuevo</h4>
+          <form id="formulario" class="mt-4 mb-4">
+            <div class="field">
+              <div class="columns">
+                <div class="column is-full">
+                  <input class="input is-medium" id="input-food" type="text" required placeholder="Añadir alimento">
+                </div>
+                <div class="column is-full">
+                  <input class="input is-medium" id="input-peso-racion" required type="number"
+                    placeholder="Peso en gramos">
+                </div>
+                <div class="column is-full">
+                  <input class="input is-medium" id="input-hc" required type="number"
+                    placeholder="HC por 100g de alimento">
+                </div>
+                <div class="column is-full">
+                  <input class="input is-medium" id="input-proteina" required type="number" placeholder="Proteina">
+                </div>
+                <div class="column is-full">
+                  <div class="select is-medium category-selector">
+                    <select id="selectOptions" class="category-selector">
+                      <!-- Options here -->
+                    </select>
+                  </div>
+                </div>
+                <div class="column control is-full has-icons-left">
+                  <input class="input is-medium" id="image_input" type="text" accept="image"
+                    placeholder="Pega la url de la imagen">
+                  <span class="icon is-left ml-3 mt-3">
+                    <ion-icon size="large" name="image-outline"></ion-icon>
+                  </span>
+                </div>
+                <div class="column is-full">
+                  <div class="buttons">
+                    <button class="button is-primary is-medium" type="submit" value="Enviar">Enviar</button>
                   </div>
                 </div>
               </div>
-              <div class="column">
-                <label id="selectOptions" class="label">Selecciona la nueva categoría</label>
-                <div class="select is-medium mb-3">
-                  <select id="selectOptionsEdit">
-                    <!-- Options here -->
-                  </select>
-                </div>
-              </div>
             </div>
-            <button type="submit" class="button is-primary is-medium">Actualizar</button>
           </form>
         </div>
-        <button id="closeModal" class="modal-close is-large"></button>
       </div>
-
+      <div class="gridSection__content">
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <p id="title" class="title">
+              Añde y edita tus alimentos
+            </p>
+            <p class="subtitle">
+              Aquí puedes añadir tus alimentos y guardarlos para consultarlos más tarde. También pordrás editarlos o si
+              lo deseas eliminarlos.
+            </p>
+            <p id="raciones">
+            </p>
+          </div>
+        </section>
+        <section class="section">
+          <div class="columns is-mobile gridContent" id="grid-columns-food">
+            <!-- Grid content foods -->
+          </div>
+          <div id="modal" class="modal is-clipped">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <form id="formEdit" class="box">
+                <div class="columns">
+                  <div class="column">
+                    <div class="field">
+                      <label id="selectOptions" class="label">Escribe el nuevo alimento</label>
+                      <div class="control">
+                        <input class="input is-medium" id="input-food-modal" type="text" placeholder="Añadir alimento">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <label id="selectOptions" class="label">Selecciona la nueva categoría</label>
+                    <div class="select is-medium mb-3">
+                      <select id="selectOptionsEdit">
+                        <!-- Options here -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="column is-full">
+                    <div class="field">
+                      <label id="selectOptions" class="label">Pega la url de la nueva imagen</label>
+                      <div class="control">
+                        <input class="input is-medium" id="input-food-image-modal" type="text"
+                          placeholder="Añadir alimento">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="button is-primary is-medium">Actualizar</button>
+              </form>
+            </div>
+            <button id="closeModal" class="modal-close is-large"></button>
+          </div>
+      </div>
       <!-- Modal -->
-    </section>
-    <script src="./js/enums/categories.js"></script>
-    <script src="./js/miarchivo.js"></script>
-    <script src="./js/logout.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    </body>
+  </section>
+  </div>
+  </div>
+  </section>
+  
+  <script src="./js/enums/categories.js"></script>
+  <script src="./js/miarchivo.js"></script>
+  <script src="./js/logout.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <!-- Development -->
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+
+  <!-- Production -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="./js/tooltips.js"></script>
+</body>
+
 </html>

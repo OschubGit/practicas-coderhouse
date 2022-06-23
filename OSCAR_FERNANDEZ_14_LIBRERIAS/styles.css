@@ -1,0 +1,75 @@
+body{
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: hidden;
+}
+.columns {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.modal {
+  height: 100vh;
+  width: 100%;
+}
+
+.navbar-item img {
+  max-height: 50px !important;
+  height: 50px;
+}
+
+.category-selector {
+  width: 100% !important;
+}
+
+.gridContent{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: start;
+  gap: 18px;
+}
+
+.gridSection {
+  display: grid;
+  width: 100%;
+  height: calc(100vh - 66px);
+  grid-template-columns: 1fr 3fr;
+}
+
+.gridSection__form {
+  height: 100%;
+  background-color: #b1fff333;
+  border: 0.3px solid rgb(0 209 178 / 26%);
+  padding: 24px;
+}
+.gridSection__form-inner {
+  /* nada */
+}
+
+.gridSection__content {
+  height: 100%;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: 0px; /* for Firefox */
+  overflow-y: scroll;
+}
+
+.total{
+  position: absolute;
+  background-color: #3f8ed0;
+  color: white;
+  font-weight: 900;
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 55px;
+  top: -9px;
+  right: -7px;
+  z-index: 9;
+}
+.total input{
+  width: 43px;
+  height: 43px;
+}

@@ -1,23 +1,31 @@
-function Alimento(alimento, category, pesoRacion, proteina, hidratosCarbono) {
+let defaultImage = "./images/default-placeholder.png"
+function Alimento(alimento, category, image, pesoRacion, proteina, hidratosCarbono, total) {
 	this.id = Math.random();
 	this.alimento = alimento ? alimento : propNoDefinida;
 	this.category = category ? category : propNoDefinida;
-	this.image =
-		"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880";
+	this.image = image ? image : defaultImage;
 	this.pesoRacion = pesoRacion ? pesoRacion : propNoDefinida;
 	this.propiedades = {
 		proteina: proteina ? proteina : propNoDefinida,
 		hidratosCarbono: hidratosCarbono ? hidratosCarbono : propNoDefinida,
 	};
+	this.total = total ? total : propNoDefinida;
 }
 
 let alimentos = [];
+let totalRaciones;
 let foodCategory = Object.values(typeCategory).map((m) => m)
 
 //Comprueba si hay aliemntos añadidos
 if (localStorage.getItem("alimentos") && JSON.parse(localStorage.getItem("alimentos"))) {
   alimentos = JSON.parse(localStorage.getItem("alimentos"));
   showList()
+}
+//Comprueba si hay total de raciones añadidas
+if (sessionStorage.getItem("total-raciones") && JSON.parse(sessionStorage.getItem("total-raciones"))) {
+  totalRaciones = JSON.parse(sessionStorage.getItem("total-raciones"));
+  let anadirRaciones = document.getElementById("raciones");
+	anadirRaciones.innerHTML = "Tienes un total de "+ totalRaciones;
 }
 
 
@@ -37,8 +45,8 @@ let selectOption = document.getElementById("selectOptions");
 let list = document.getElementById("grid-columns-food");
 
 
-function ingresarNuevo({ alimento, category, peso, hc, proteina }) {
-	let nuevoAlimento = new Alimento(alimento, category, peso, hc, proteina);
+function ingresarNuevo({ alimento, category, image, peso, hc, proteina, total }) {
+	let nuevoAlimento = new Alimento(alimento, category, image, peso, hc, proteina, total);
 	//anadimos el nuevo aliemnto al array de alimentos
 	alimentos.push(nuevoAlimento);
 }
@@ -48,9 +56,9 @@ function showList() {
     for (const alimento of alimentos) {
       let list = document.getElementById("grid-columns-food");
       let contenedor = document.createElement("div");
-      contenedor.className = "column is-one-quarter";
       contenedor.innerHTML = `
                   <div class="card">
+				  <div class="total" onclick={selectCard(${alimento.total})}>${alimento.total}r</div>
                       <div class="card-image">
                       <figure class="image is-4by3">
                           <img src=${alimento.image} alt="image-food">
@@ -75,6 +83,17 @@ function showList() {
                   </div>`;
       list.appendChild(contenedor);
 	}
+}
+
+/* select card */
+let raciones = [];
+function selectCard(total) {
+	raciones.push(total)
+	totalRaciones = raciones.reduce((a, b) => a + b).toFixed(2);
+	console.log(totalRaciones)
+	sessionStorage.setItem("total-raciones", JSON.stringify(totalRaciones));
+	let anadirRaciones = document.getElementById("raciones");
+	anadirRaciones.innerHTML = "Tienes un total de "+ totalRaciones;
 }
 
 /* Create options for menu in navbar */
@@ -106,9 +125,14 @@ function respuestaEditar() {
 }
 
 let saveFood;
+let saveFoodImage;
 let newFoodModal = document.getElementById("input-food-modal");
 newFoodModal.addEventListener("input", () => {
 	saveFood = newFoodModal.value;
+});
+let newFoodImageModal = document.getElementById("input-food-image-modal");
+newFoodImageModal.addEventListener("input", () => {
+	saveFoodImage = newFoodImageModal.value;
 });
 
 
@@ -120,11 +144,25 @@ function editCard(id){
 		e.preventDefault();
 		let getOption = document.getElementById("selectOptionsEdit");
 		const findAlimento = alimentos.findIndex((item) => item.id === id);
-		alimentos[findAlimento].alimento = saveFood;
+		alimentos[findAlimento].alimento = saveFood ? saveFood : alimentos[findAlimento].alimento;
 		alimentos[findAlimento].category = getOption.value;
+		alimentos[findAlimento].image = saveFoodImage ? saveFoodImage : alimentos[findAlimento].image;
 		localStorage.setItem("alimentos", JSON.stringify(alimentos))
 		list.innerHTML = "";
 		showList();
+		Toastify({
+			text: "Editado correctamente",
+			duration: 3000,
+			newWindow: true,
+			close: true,
+			gravity: "bottom",
+			position: "center",
+			stopOnFocus: true,
+			style: {
+				background: "#485fc7",
+			},
+			onClick: function(){} // Callback after click
+		}).showToast();
 	});
 }
 
@@ -139,7 +177,7 @@ function deleteCard(id) {
 		position: "center",
 		stopOnFocus: true,
 		style: {
-			background: "#485fc7",
+			background: "#f14668",
 		},
 		onClick: function(){} // Callback after click
 	}).showToast();
@@ -161,10 +199,13 @@ function validarFormulario(e) {
 	let pesoRacion = document.getElementById("input-peso-racion").value;
 	let hc = document.getElementById("input-hc").value;
 	let proteina = document.getElementById("input-proteina").value;
-	//form para seleccionar alimento a editar
 	let category = document.getElementById("selectOptions").value;
+	let image_input = document.querySelector("#image_input")
+	let upload_image = image_input.value;
+	let total = (pesoRacion * hc) / 1000;
 
-	let alimento = new Alimento(food, category, pesoRacion, proteina, hc);
+	console.log(upload_image)
+	let alimento = new Alimento(food, category, upload_image, pesoRacion, proteina, hc, total.toFixed(1));
   	alimentos.push(alimento)
 	// Para vaciar todo, tomamos el id del formulario y usamos el método reset()
 	miFormulario.reset();
@@ -227,11 +268,11 @@ for (const item of foodCategory) {
 	for (const alimento of alimentos) {
 	  card = document.getElementById("grid-columns-food");
 	  cardContainer = document.createElement("div");
-	  cardContainer.className = "column is-one-quarter";
 	  let nombre = alimento.alimento.toLowerCase();
 	  if (nombre.indexOf(text) !== -1) {
 		cardContainer.innerHTML += `
 			  <div class="card">
+			  <div class="total">${alimento.total}r</div>
 			  <div class="card-image">
 			  <figure class="image is-4by3">
 				  <img src=${alimento.image} alt="image-food">
@@ -260,3 +301,4 @@ for (const item of foodCategory) {
   }
 /*   searchInputhtml.addEventListener("keyup", filtrar);
   filtrar(); */
+

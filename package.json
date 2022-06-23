@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "resizerjs": "^0.0.1",
+    "tippy.js": "^6.3.7"
+  }
+}

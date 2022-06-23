@@ -21,7 +21,15 @@
         .modal {
             height: 100vh;
             width: 100%;
+            background: #fffffff2;
         }
+        .modal button{
+            background: #484848;
+        }
+        .navbar-item img{
+        max-height: 50px !important;
+        height: 50px;
+      }
     </style>
 </head>
 
@@ -81,6 +89,16 @@
         </div>
         </div>
     </section>
+    <div id="modal" class="modal is-clipped">
+        <div class="modal-content">
+            <div id="grid-columns-instructions">
+                <!-- Grid content foods -->
+            </div>
+        </div>
+        <button id="closeModal" class="modal-close is-large"></button>
+      </div>
+
+      <!-- Modal -->
     <script src="./js/enums/categories.js"></script>
     <script src="./js/logout.js"></script>
     <script src="./js/apiFood.js"></script>

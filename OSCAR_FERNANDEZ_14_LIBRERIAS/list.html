@@ -7,12 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
   <link rel="stylesheet" href="./styles.css">
-  <link
-  rel="stylesheet"
-  href="https://unpkg.com/tippy.js@6/animations/scale.css"
-/>
-  <title>Eventos</title>
+  <link rel="icon" href="favicon.ico" />
+  <title>Eat Healthy</title>
 </head>
 
 <body>
@@ -22,26 +20,29 @@
         <img src="./images/logo.png" class="image-nav">
       </a>
 
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <a role="button" id="burguer" class="navbar-burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="allfoods.html">
-          Recetas
-        </a>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Categorías
+    <div id="navbarBasicExample" class="navbar-menu is-active">
+      <div id="dropdown" class="dropdown">
+        <div class="navbar-start">
+          <a class="navbar-item" href="allfoods.html">
+            Recetas
           </a>
 
-          <div class="navbar-dropdown">
-            <!-- Options -->
+          <div id="itemsActive" class="navbar-item has-dropdown">
+            <a class="navbar-link">
+              Categorías
+            </a>
+
+            <div class="navbar-dropdown dropdown-menu">
+              <!-- Options -->
+            </div>
           </div>
         </div>
       </div>
@@ -53,7 +54,7 @@
           </div>
           <div class="control">
             <a id="btnSearch" class="button is-info">
-              Search
+              Buscar
             </a>
           </div>
         </div>
@@ -129,8 +130,6 @@
               Aquí puedes añadir tus alimentos y guardarlos para consultarlos más tarde. También pordrás editarlos o si
               lo deseas eliminarlos.
             </p>
-            <p id="raciones">
-            </p>
           </div>
         </section>
         <section class="section">
@@ -151,9 +150,18 @@
                     </div>
                   </div>
                   <div class="column">
+                    <div class="field">
+                      <label id="selectOptions" class="label">Peso en gramos</label>
+                      <div class="control">
+                        <input class="input is-medium" id="input-peso-racion-modal" type="number"
+                          placeholder="Define el peso en gramos">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column is-full">
                     <label id="selectOptions" class="label">Selecciona la nueva categoría</label>
-                    <div class="select is-medium mb-3">
-                      <select id="selectOptionsEdit">
+                    <div class="select is-medium mb-3 category-selector">
+                      <select id="selectOptionsEdit" class="category-selector">
                         <!-- Options here -->
                       </select>
                     </div>
@@ -179,21 +187,20 @@
   </div>
   </div>
   </section>
-  
-  <script src="./js/enums/categories.js"></script>
-  <script src="./js/miarchivo.js"></script>
-  <script src="./js/logout.js"></script>
+
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <!-- Development -->
-  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
-  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 
-  <!-- Production -->
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
+  <!-- Js files -->
   <script src="./js/tooltips.js"></script>
+  <script src="./js/enums/categories.js"></script>
+  <script src="./js/miarchivo.js"></script>
+  <script src="./js/logout.js"></script>
+  <script src="./js/navbarMenu.js"></script>
 </body>
 
 </html>

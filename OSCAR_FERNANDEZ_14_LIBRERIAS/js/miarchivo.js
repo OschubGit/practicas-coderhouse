@@ -1,4 +1,17 @@
+//Validar formulario > linea 
+//Edicion card > linea 
+//Delete card > linea 
+//Mostrar lista > linea 
+//Cerrar modal > linea
+//Filtrar por categorias > linea
+//Buscador del navegador > linea
+
+
 let defaultImage = "./images/default-placeholder.png"
+let propNoDefinida = "No definido";
+
+
+//Estructura de nuestro array
 function Alimento(alimento, category, image, pesoRacion, proteina, hidratosCarbono, total) {
 	this.id = Math.random();
 	this.alimento = alimento ? alimento : propNoDefinida;
@@ -12,53 +25,45 @@ function Alimento(alimento, category, image, pesoRacion, proteina, hidratosCarbo
 	this.total = total ? total : propNoDefinida;
 }
 
+
+
+//Variables
 let alimentos = [];
+let selectOptions = "";
+let selectOption = document.getElementById("selectOptions");
+let list = document.getElementById("grid-columns-food");
+let saveFood;
+let saveFoodImage;
 let totalRaciones;
 let foodCategory = Object.values(typeCategory).map((m) => m)
 
-//Comprueba si hay aliemntos añadidos
+
+
+//Comprueba si hay aliemntos anadidos al cargar la pagina
 if (localStorage.getItem("alimentos") && JSON.parse(localStorage.getItem("alimentos"))) {
   alimentos = JSON.parse(localStorage.getItem("alimentos"));
   showList()
 }
-//Comprueba si hay total de raciones añadidas
-if (sessionStorage.getItem("total-raciones") && JSON.parse(sessionStorage.getItem("total-raciones"))) {
-  totalRaciones = JSON.parse(sessionStorage.getItem("total-raciones"));
-  let anadirRaciones = document.getElementById("raciones");
-	anadirRaciones.innerHTML = "Tienes un total de "+ totalRaciones;
-}
 
-
+//Comprueba que si entras sin usuario te redirige al login
 if (!localStorage.getItem("name")) {
 	window.location = "index.html";
 }
 
+//Mostrar nombre del usuario del localStorage
 let user = localStorage.getItem("name");
 let addName = document.getElementById("title");
-addName.innerHTML = "Hola, " + user + ". Añde y edita tus alimentos";
-
-let propNoDefinida = "No definido";
-
-// Selectores
-let selectOptions = "";
-let selectOption = document.getElementById("selectOptions");
-let list = document.getElementById("grid-columns-food");
+addName.innerHTML = "Hola, " + user + ". Añade y edita tus alimentos";
 
 
-function ingresarNuevo({ alimento, category, image, peso, hc, proteina, total }) {
-	let nuevoAlimento = new Alimento(alimento, category, image, peso, hc, proteina, total);
-	//anadimos el nuevo aliemnto al array de alimentos
-	alimentos.push(nuevoAlimento);
-}
 
-//muestra en pantalla la lista de alimentos
+//Muestra en pantalla la lista de alimentos
 function showList() {
     for (const alimento of alimentos) {
       let list = document.getElementById("grid-columns-food");
       let contenedor = document.createElement("div");
       contenedor.innerHTML = `
                   <div class="card">
-				  <div class="total" onclick={selectCard(${alimento.total})}>${alimento.total}r</div>
                       <div class="card-image">
                       <figure class="image is-4by3">
                           <img src=${alimento.image} alt="image-food">
@@ -67,11 +72,26 @@ function showList() {
                       <div class="card-content">
                       <div class="media">
                           <div class="media-content">
+						  <div class="title is-5 raciones">
+						  ${alimento.total > 7 ? (
+							`
+							<ion-icon style="color: red;" name="alert-circle-outline"></ion-icon>
+							${alimento.total}raciones
+							`
+						  ) : (
+							`
+							<ion-icon style="color: green;" name="checkmark-circle-outline"></ion-icon>
+							${alimento.total}raciones
+							`
+						  )}
+						  </div>
                           <p class="title is-4">${alimento.alimento}</p>
                           <p>Categoría:</p>
 						  <span class="tag is-link is-normal is-light mb-3">${alimento.category}</span>
                           <p>Hidratos de Carbono:</p>
                           <p class="title is-6">${alimento.propiedades.hidratosCarbono}</p>
+						  <p>Peso en gramos:</p>
+						  <p class="title is-6">${alimento.pesoRacion} gramos</p>
                           </div>
                       </div>
 					  <hr>
@@ -85,70 +105,94 @@ function showList() {
 	}
 }
 
-/* select card */
-let raciones = [];
-function selectCard(total) {
-	raciones.push(total)
-	totalRaciones = raciones.reduce((a, b) => a + b).toFixed(2);
-	console.log(totalRaciones)
-	sessionStorage.setItem("total-raciones", JSON.stringify(totalRaciones));
-	let anadirRaciones = document.getElementById("raciones");
-	anadirRaciones.innerHTML = "Tienes un total de "+ totalRaciones;
-}
 
-/* Create options for menu in navbar */
-for (const item of foodCategory) {
+
+//Cargamos las categorias del formulario con el ENUM typeCategory
+for (const category of foodCategory) {
 foodCategory = Object.values(typeCategory).map((m) => m)
 	let list  = document.getElementById("selectOptions");
     let contenedor = document.createElement("option");
-    contenedor.innerHTML = item;
-    list.appendChild(contenedor);
-}
-/* Create options for edit select in modal */
-for (const item of foodCategory) {
-	let list  = document.getElementById("selectOptionsEdit");
-    let contenedor = document.createElement("option");
-    contenedor.innerHTML = item;
+    contenedor.innerHTML = category;
     list.appendChild(contenedor);
 }
 
-/* EDITAR CARD */
+//Cargamos las categorias en el selector del modal de edicion
+for (const category of foodCategory) {
+	let list  = document.getElementById("selectOptionsEdit");
+    let contenedor = document.createElement("option");
+    contenedor.innerHTML = category;
+    list.appendChild(contenedor);
+}
+
+//Cargamos las categorias en el selector del menu de navegación
+for (const category of foodCategory) {
+	let list = document.querySelector(".navbar-dropdown");
+	let contenedor = document.createElement("div");
+	contenedor.className = "navbar-item";
+	contenedor.innerHTML = `<button type="button" class="button is-white btnfilter">${category}</button>`;
+	list.appendChild(contenedor);
+  }
+
+
+
+//Edicion de alimentos
+//Abrimos modal con evento onClick
 let openModal = document.getElementById("modal");
-//abrimos y cerramos el modal con evento onclick
+
+//Anadimos la clase is-active en el modal para activarlo al ejecutar la funcion
+function respuestaEditar() {
+	openModal.className = "modal is-active";
+}
+
+//Cerramos modal con evento onClick
 const closeModal = document.getElementById("closeModal");
 closeModal.addEventListener("click", () => {
 	openModal.classList.remove("is-active");
 	openModal.className = "modal";
 });
-function respuestaEditar() {
-	openModal.className = "modal is-active";
-}
 
-let saveFood;
-let saveFoodImage;
+
+
+//Asignamos los nuevos valores del modal de edicion
 let newFoodModal = document.getElementById("input-food-modal");
 newFoodModal.addEventListener("input", () => {
 	saveFood = newFoodModal.value;
 });
+
 let newFoodImageModal = document.getElementById("input-food-image-modal");
 newFoodImageModal.addEventListener("input", () => {
 	saveFoodImage = newFoodImageModal.value;
 });
 
+let newPesoRacion = document.getElementById("input-peso-racion-modal");
+newPesoRacion.addEventListener("input", () => {
+	savePesoRacion = newPesoRacion.value;
+});
+
+
+
+//Deteccion de onclick editar
+let getOption;
+let findAlimento;
 
 function editCard(id){
 	alimentos = JSON.parse(localStorage.getItem("alimentos"))
 	respuestaEditar()
-	let formEdit = document.getElementById("formEdit");
+	getOption = document.getElementById("selectOptionsEdit");
+	findAlimento = alimentos.findIndex((item) => item.id === id);
+}
+
+//Ejecutamos edicion de formulario
+let formEdit = document.getElementById("formEdit");
 	formEdit.addEventListener("submit", (e) => {
 		e.preventDefault();
-		let getOption = document.getElementById("selectOptionsEdit");
-		const findAlimento = alimentos.findIndex((item) => item.id === id);
 		alimentos[findAlimento].alimento = saveFood ? saveFood : alimentos[findAlimento].alimento;
+		alimentos[findAlimento].pesoRacion = savePesoRacion ? savePesoRacion : alimentos[findAlimento].pesoRacion;
+		alimentos[findAlimento].total = (savePesoRacion * alimentos[findAlimento].propiedades.hidratosCarbono) / 1000;
 		alimentos[findAlimento].category = getOption.value;
-		alimentos[findAlimento].image = saveFoodImage ? saveFoodImage : alimentos[findAlimento].image;
-		localStorage.setItem("alimentos", JSON.stringify(alimentos))
+		alimentos[findAlimento].image = saveFoodImage ? saveFoodImage : defaultImage;
 		list.innerHTML = "";
+		localStorage.setItem("alimentos", JSON.stringify(alimentos))
 		showList();
 		Toastify({
 			text: "Editado correctamente",
@@ -164,9 +208,11 @@ function editCard(id){
 			onClick: function(){} // Callback after click
 		}).showToast();
 	});
-}
 
-//Borrar card filtrando por id y actualizando la lista
+
+
+//Borrar alimento al cliclar btn eliminar
+//Filtramos por todos los alimentos menos el seleccionado y actualizamos array
 function deleteCard(id) {
 	Toastify({
 		text: "Eliminado correctamente",
@@ -179,7 +225,7 @@ function deleteCard(id) {
 		style: {
 			background: "#f14668",
 		},
-		onClick: function(){} // Callback after click
+		onClick: function(){}
 	}).showToast();
 	const filtrarAlimentoDelete = alimentos.filter((i) => i.id != id);
 	alimentos = filtrarAlimentoDelete;
@@ -189,12 +235,13 @@ function deleteCard(id) {
 }
 
 
-//validar datos con el formulario
+//Validacion de formulario
 let miFormulario = document.getElementById("formulario");
 miFormulario.addEventListener("submit", validarFormulario);
 
 function validarFormulario(e) {
-  e.preventDefault();
+  	e.preventDefault();
+
 	let food = document.getElementById("input-food").value;
 	let pesoRacion = document.getElementById("input-peso-racion").value;
 	let hc = document.getElementById("input-hc").value;
@@ -203,102 +250,116 @@ function validarFormulario(e) {
 	let image_input = document.querySelector("#image_input")
 	let upload_image = image_input.value;
 	let total = (pesoRacion * hc) / 1000;
-
-	console.log(upload_image)
 	let alimento = new Alimento(food, category, upload_image, pesoRacion, proteina, hc, total.toFixed(1));
   	alimentos.push(alimento)
-	// Para vaciar todo, tomamos el id del formulario y usamos el método reset()
 	miFormulario.reset();
-  
+
 	list.innerHTML = "";
   	localStorage.setItem("alimentos", JSON.stringify(alimentos))
+
 	showList();
 }
 
 
-/* ALLFOODS */
-/* Create options menu with enum values */
-for (const item of foodCategory) {
-	let list = document.querySelector(".navbar-dropdown");
-	let contenedor = document.createElement("div");
-	contenedor.className = "navbar-item";
-	contenedor.innerHTML = `<button type="button" class="button is-white btnfilter">${item}</button>`;
-	list.appendChild(contenedor);
-  }
-  
-  /* Filtrar por item seleccionado */
-  let btnFilter = document.querySelectorAll(".btnfilter");
-  for (let x = 0; x < foodCategory.length; x++) {
-	btnFilter[x].addEventListener("click", () => {
-	  let result = btnFilter[x].innerHTML;
-	  let filterPerId = JSON.parse(localStorage.getItem("alimentos")).filter(
+
+//Filtrar alimentos por categoria cuando se selecciona en el menu de navegacion
+//Detectamos cada uno de los items con queryselctor
+let btnFilter = document.querySelectorAll(".btnfilter");
+
+//Iteración por cada categoria de alimento para detectar el click
+for (let x = 0; x < foodCategory.length; x++) {
+btnFilter[x].addEventListener("click", () => {
+	let result = btnFilter[x].innerHTML;
+	let filterPerId = JSON.parse(localStorage.getItem("alimentos")).filter(
 		(f) => f.category === result
-	  );
-	  list.innerHTML = "";
-	  alimentos = filterPerId;
-	  let nameCat = document.getElementById("title");
-	  nameCat.innerHTML = `Has filtrado por ${result}`;
-	  if (filterPerId.length > 0) {
+	);
+
+	list.innerHTML = "";
+	alimentos = filterPerId;
+	let nameCat = document.getElementById("title");
+	nameCat.innerHTML = `Has filtrado por ${result}`;
+	
+	if (filterPerId.length > 0) {
 		showList();
-	  } else {
+	} else {
 		list.innerHTML = `
-			  <div id="delete-warning" class="notification is-warning">
-			  <button type="button" onclick={deleteWarning()} class="delete"></button>
-			  No hay alimentos en la categoría ${result}.
-			  </div>`;
-	  }
+			<div id="delete-warning" class="notification is-warning">
+			<button type="button" onclick={deleteWarning()} class="delete"></button>
+			No hay alimentos en la categoría ${result}.
+			</div>`;
+		}
 	});
-  }
-  
-  function deleteWarning() {
-	const deleteWarning = document.getElementById("delete-warning");
-	deleteWarning.remove();
-  }
-  
-  /* BUSCADOR */
-  let searchInputhtml = document.querySelector("#searchInput");
-  let searchBtnHtml = document.getElementById("btnSearch");
-  searchBtnHtml.addEventListener("click", filtrar);
-  
-  let card;
-  let cardContainer;
-  function filtrar() {
+}
+
+
+
+//Buscador del navegador
+let searchInputhtml = document.querySelector("#searchInput");
+let searchBtnHtml = document.getElementById("btnSearch");
+searchBtnHtml.addEventListener("click", filtrar);
+
+let card;
+let cardContainer;
+function filtrar() {
 	list.innerHTML = "";
 	let text = searchInputhtml.value.toLowerCase();
-	for (const alimento of alimentos) {
-	  card = document.getElementById("grid-columns-food");
-	  cardContainer = document.createElement("div");
-	  let nombre = alimento.alimento.toLowerCase();
-	  if (nombre.indexOf(text) !== -1) {
-		cardContainer.innerHTML += `
-			  <div class="card">
-			  <div class="total">${alimento.total}r</div>
-			  <div class="card-image">
-			  <figure class="image is-4by3">
-				  <img src=${alimento.image} alt="image-food">
-			  </figure>
-			  </div>
-			  <div class="card-content">
-			  <div class="media">
-				  <div class="media-content">
-				  <p class="title is-4">${alimento.alimento}</p>
-				  <p>Categoría:</p>
-				  <span class="tag is-link is-normal is-light mb-3">${alimento.category}</span>
-				  <p>Hidratos de Carbono:</p>
-				  <p class="title is-6">${alimento.propiedades.hidratosCarbono}</p>
-				  </div>
-			  </div>
-			  </div>
-		  </div>
-			  `;
-		card.appendChild(cardContainer);
-	  }
+		for (const alimento of alimentos) {
+			card = document.getElementById("grid-columns-food");
+			cardContainer = document.createElement("div");
+
+		let nombre = alimento.alimento.toLowerCase();
+		if (nombre.indexOf(text) !== -1) {
+			cardContainer.innerHTML += `
+			<div class="card">
+			<div class="card-image">
+			<figure class="image is-4by3">
+				<img src=${alimento.image} alt="image-food">
+			</figure>
+			</div>
+			<div class="card-content">
+			<div class="media">
+				<div class="media-content">
+				<div class="title is-5 raciones">
+				${alimento.total > 7 ? (
+					`
+				  <ion-icon style="color: red; name="alert-circle-outline"></ion-icon>
+				  ${alimento.total}raciones
+				  `
+				) : (
+				  `
+				  <ion-icon style="color: green;" class="checkmark-circle-outline" name="checkmark-circle-outline"></ion-icon>
+				  ${alimento.total}raciones
+				  `
+				)}
+				</div>
+				<p class="title is-4">${alimento.alimento}</p>
+				<p>Categoría:</p>
+				<span class="tag is-link is-normal is-light mb-3">${alimento.category}</span>
+				<p>Hidratos de Carbono:</p>
+				<p class="title is-6">${alimento.propiedades.hidratosCarbono}</p>
+				<p>Peso en gramos:</p>
+				<p class="title is-6">${alimento.pesoRacion} gramos</p>
+				</div>
+			</div>
+			<hr>
+			<div class="content">
+			<button type="button" class="button is-outlined is-info" onclick={editCard(${alimento.id})}>Editar</button>
+			<button type="button" class="button is-danger is-outlined" onclick={deleteCard(${alimento.id})}>Eliminar</button>
+			</div>
+			</div>
+		</div>`;
+			card.appendChild(cardContainer);
+		}
 	}
 	if (card.innerHTML === "") {
-	  cardContainer.innerHTML = `<p>No hay nada que coincida con ${text}</p>`;
-	  card.appendChild(cardContainer);
+		cardContainer.innerHTML = `<p>No hay nada que coincida con ${text}</p>`;
+		card.appendChild(cardContainer);
 	}
-  }
-/*   searchInputhtml.addEventListener("keyup", filtrar);
-  filtrar(); */
+}
 
+
+//Cerramos mensaje de no hay coincidencias al filtrar
+function deleteWarning() {
+	const deleteWarning = document.getElementById("delete-warning");
+	deleteWarning.remove();
+}

@@ -7,12 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./allfoods.css">
+    <link rel="icon" href="favicon.ico" />
     <title>Eventos</title>
     <style>
-        .hero{
+        .hero {
             margin-top: 56px;
         }
+
         .columns {
             width: 100%;
             flex-wrap: wrap;
@@ -23,13 +26,15 @@
             width: 100%;
             background: #fffffff2;
         }
-        .modal button{
+
+        .modal button {
             background: #484848;
         }
-        .navbar-item img{
-        max-height: 50px !important;
-        height: 50px;
-      }
+
+        .navbar-item img {
+            max-height: 50px !important;
+            height: 50px;
+        }
     </style>
 </head>
 
@@ -38,7 +43,7 @@
         <div class="navbar-brand">
             <a class="navbar-item" href="list.html">
                 <img src="./images/logo.png" class="image-nav">
-              </a>
+            </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
                 data-target="navbarBasicExample">
@@ -50,8 +55,7 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item"
-                    href="list.html">
+                <a class="navbar-item" href="list.html">
                     Crear Nuevo
                 </a>
             </div>
@@ -60,7 +64,8 @@
                 <div class="navbar-item">
                     <div class="buttons">
                         <button class="button">
-                            <a href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
+                            <a
+                                href="https://github.com/OschubGit/practicas-coderhouse/tree/main/OSCAR_FERNANDEZ_14_LIBRERIAS">
                                 <span class="icon is-small mr-1">
                                     <ion-icon name="logo-github"></ion-icon>
                                 </span>
@@ -73,7 +78,7 @@
             </div>
         </div>
     </nav>
-    <section class="hero is-primary">
+    <section class="hero hero-allfods is-primary">
         <div class="hero-body">
             <p id="title" class="title">
                 Recetas bajas en Carbohidratos
@@ -84,7 +89,7 @@
         </div>
     </section>
     <section class="section">
-        <div class="columns is-mobile" id="grid-columns-apiFood">
+        <div class="columns is-mobile gridContent" id="grid-columns-apiFood">
             <!-- Grid content foods -->
         </div>
         </div>
@@ -96,15 +101,15 @@
             </div>
         </div>
         <button id="closeModal" class="modal-close is-large"></button>
-      </div>
+    </div>
 
-      <!-- Modal -->
-    <script src="./js/enums/categories.js"></script>
-    <script src="./js/logout.js"></script>
-    <script src="./js/apiFood.js"></script>
+    <!-- Modal -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="./js/enums/categories.js"></script>
+    <script src="./js/logout.js"></script>
+    <script src="./js/apiFood.js"></script>
 </body>
 
 </html>

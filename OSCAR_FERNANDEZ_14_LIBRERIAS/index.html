@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,50 +8,57 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="spinner.css">
     <link rel="stylesheet" href="login.css">
-    <title>Login</title>
+    <link rel="icon" href="favicon.ico" />
+    <title>Eat Healthy - Login</title>
 </head>
+
 <body>
     <!--Hey! This is the original version
 of Simple CSS Waves-->
 
-<div class="header">
+    <div class="header">
 
-    <!--Content before waves-->
-    <div class="inner-header flex">
-    <div class="box">
-        <form>
-            <div class="field center">
-                <img src="./images/logo.png" alt="logo" width="250px">
-                <label class="label my-3 is-size-4">Iniciar Sesión</label>
-                <div class="control">
-                  <input id="formNameStorage" class="input mb-3" type="text" placeholder="Escribe tu nombre">
-                  <button type="submit" id="singInLogin" class="button is-primary is-fullwidth">Entrar</button>
+        <!--Content before waves-->
+        <div class="inner-header flex">
+            <div class="box">
+                <form>
+                    <div class="field center">
+                        <img src="./images/logo.png" alt="logo" width="250px">
+                        <label class="label my-3 is-size-4">Iniciar Sesión</label>
+                        <div class="control">
+                            <input id="formNameStorage" class="input mb-3" type="text" placeholder="Escribe tu nombre">
+                            <button type="submit" id="singInLogin"
+                                class="button is-primary is-fullwidth">Entrar</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="spinner" class="mt-5">
+                    <!-- Spinner here -->
                 </div>
             </div>
-        </form>
-        <div id="spinner" class="mt-5"><!-- Spinner here --></div>
-    </div>
-    </div>
-    
-    <!--Waves Container-->
-    <div>
-    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-    <defs>
-    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-    </defs>
-    <g class="parallax">
-    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-    </g>
-    </svg>
-    </div>
-    <!--Waves end-->
-    
+        </div>
+
+        <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+
     </div>
     <!--Header ends-->
-        <script src="./js/login.js"></script>
-    </body>
+    <script src="./js/login.js"></script>
+</body>
+
 </html>
